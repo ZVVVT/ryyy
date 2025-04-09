@@ -7,8 +7,9 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #fff;
+            font-size: 14px;
         }
         .status-bar {
             display: flex;
@@ -34,14 +35,14 @@
             margin: 0;
         }
         .container {
-            padding: 10px;
+            padding: 20px;
         }
         .user-info {
             background-color: #fff;
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
             display: flex;
             align-items: center;
         }
@@ -72,19 +73,44 @@
         .user-info .links a {
             font-size: 14px;
             text-decoration: none;
+            display: flex;
+            align-items: center; /* 图标和文字垂直居中 */
         }
         .user-info .links a:first-child {
             color: #666;
         }
         .user-info .links a:last-child {
-            color: #007bff;
+            color: #43a2c0;
+        }
+        /* 用户协议图标 */
+        .user-info .links a:first-child::before {
+            content: '';
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-image: url('user-agreement-icon.png'); /* 用户协议 PNG 图标 */
+            background-size: cover;
+            background-position: center;
+            margin-right: 10px; /* 图标与文字间距 */
+        }
+        /* 隐私政策图标 */
+        .user-info .links a:last-child::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 15px;
+            background-image: url('privacy-policy-icon.png'); /* 隐私政策 PNG 图标 */
+            background-size: cover;
+            background-position: center;
+            margin-right: 5px; /* 图标与文字间距 */
         }
         .tabs {
             display: flex;
             background-color: #fff;
-            padding: 10px 15px;
-            border-radius: 10px 10px 0 0;
+            /*padding: 10px 15px;*/
+            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
         }
         .tabs .tab {
             flex: 1;
@@ -94,9 +120,13 @@
             padding: 10px 0;
             position: relative;
             color: #666;
+            cursor: pointer;
+            /*border-radius: 10px;*/
+            transition: background-color 0.3s;
         }
         .tabs .tab.active {
-            color: #007bff;
+            color: #24586d;
+            background-color: #f0f0f0;
         }
         .tabs .tab.active::after {
             content: '';
@@ -104,23 +134,32 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 30px;
+            width: 200px;
             height: 2px;
-            background-color: #007bff;
+            background-color: #24586d;
         }
         .reservation-list {
-            background-color: #fff;
-            padding: 0 15px 15px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: transparent;
+            padding: 0 0px;
+        }
+        .reservation-list .list {
+            display: none;
+        }
+        .reservation-list .list.active {
+            display: block;
         }
         .reservation-item {
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             position: relative;
+            border-bottom: none;
+            overflow: hidden;
         }
         .reservation-item:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
         }
         .reservation-item h3 {
             font-size: 14px;
@@ -131,16 +170,27 @@
             font-size: 14px;
             color: #333;
             margin: 5px 0;
+            line-height: 1.5;
         }
         .reservation-item .status {
             position: absolute;
+            top: 1px;
+            right: 0;
+            font-size: 12px;
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            z-index: 2;
+        }
+        .reservation-item .benren {
             top: 15px;
             right: 0;
             font-size: 12px;
             color: #fff;
-            background-color: #28a745;
+            background-color: #2db865;
             padding: 2px 5px;
             border-radius: 3px;
+            z-index: 2;
         }
         .reservation-item::after {
             content: '';
@@ -149,58 +199,100 @@
             right: 0;
             width: 0;
             height: 0;
-            border-top: 30px solid #28a745;
-            border-left: 30px solid transparent;
+            border-top: 50px solid #2db865;
+            border-left: 50px solid transparent;
+            z-index: 1;
+            border-top-right-radius: 10px;
         }
     </style>
 </head>
 <body>
-
+<!--     <div class="status-bar">
+        <span class="close">X</span>
+        <span>21:59</span>
+        <span>信号 Wi-Fi 37%</span>
+    </div>
+    <div class="header">
+        <h1>校园预订</h1>
+        <p>ryyy.lzu.edu.cn</p>
+    </div> -->
     <div class="container">
         <div class="user-info">
             <img src="avatar.jpg" alt="头像" class="avatar">
             <div class="info">
-                <h2>管理员</h2>
-                <p>身份证号码：610***********3037</p>
+                <p>曾望途</p>
+                <p>身份证号：610***********3037</p>
             </div>
             <div class="links">
                 <a href="#">用户协议</a>
-                <a href="#">隐私政策</a>
+                <a href="#">修改实名</a>
             </div>
         </div>
         <div class="tabs">
-            <div class="tab active">人员预约</div>
-            <div class="tab">车辆预约</div>
+            <div class="tab active" onclick="showTab('person')">人员预约</div>
+            <div class="tab" onclick="showTab('vehicle')">车辆预约</div>
         </div>
         <div class="reservation-list">
-            <div class="reservation-item">
-                <h3>预约日期：2025-04-05</h3>
-                <p>姓名：管理员</p>
-                <p>电话：184343391743</p>
-                <p>身份证号码：610528199604083037</p>
-                <p>预约园区：其它</p>
-                <p>预约校区：本部校区</p>
-                <span class="status">有效</span>
+            <div class="list active" id="person-list">
+                <div class="reservation-item">
+                    <h3>人员预约</h3>
+					<p>预约日期：2025-04-03</p>
+                    <p>姓名：曾望途</p>
+                    <p>电话：184343391743</p>
+                    <p>身份证号：610528199604083037</p>
+                    <p>预约原因：其它</p>
+                    <p>预约校区：本部校区</p>
+                    <span class="status">有效</span>
+                    <span class="benren">本人</span>
+                </div>
+                <div class="reservation-item">
+                    <h3>人员预约</h3>
+					<p>预约日期：2025-04-02</p>
+                    <p>姓名：曾望途</p>
+                    <p>电话：184343391743</p>
+                    <p>身份证号：610528199604083037</p>
+                    <p>预约原因：其它</p>
+                    <p>预约校区：本部校区</p>
+                    <span class="status">有效</span>
+                    <span class="benren">本人</span>
+                </div>
             </div>
-            <div class="reservation-item">
-                <h3>预约日期：2025-04-02</h3>
-                <p>姓名：管理员</p>
-                <p>电话：184343391743</p>
-                <p>身份证号码：610528199604083037</p>
-                <p>预约园区：其它</p>
-                <p>预约校区：本部校区</p>
-                <span class="status">有效</span>
-            </div>
-            <div class="reservation-item">
-                <h3>预约日期：2025-04-01</h3>
-                <p>姓名：管理员</p>
-                <p>电话：184343391743</p>
-                <p>身份证号码：610528199604083037</p>
-                <p>预约园区：其它</p>
-                <p>预约校区：本部校区</p>
-                <span class="status">有效</span>
+            <div class="list" id="vehicle-list">
+                <div class="reservation-item">
+                    <h3>车辆预约</h3>
+					<p>预约日期：2025-02-25</p>
+                    <p>姓名：曾望途</p>
+                    <p>电话：18153627545</p>
+                    <p>车牌号码：甘A22A66</p>
+                    <p>预约园区：其它</p>
+                    <p>预约校区：榆中校区</p>
+                    <span class="status">有效</span>
+                </div>
+                <div class="reservation-item">
+                    <h3>车辆预约</h3>
+					<p>预约日期：2025-02-21</p>
+                    <p>姓名：曾望途</p>
+                    <p>电话：18153627545</p>
+                    <p>车牌号码：甘A22A66</p>
+                    <p>预约园区：其它</p>
+                    <p>预约校区：榆中校区</p>
+                    <span class="status">有效</span>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function showTab(tab) {
+            const tabs = document.querySelectorAll('.tab');
+            const lists = document.querySelectorAll('.list');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            lists.forEach(l => l.classList.remove('active'));
+
+            document.querySelector(`.tab[onclick="showTab('${tab}')"]`).classList.add('active');
+            document.getElementById(`${tab}-list`).classList.add('active');
+        }
+    </script>
 </body>
 </html>
