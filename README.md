@@ -1,1 +1,1 @@
-# ryyy.lzu.edu.cn
+# ryyy
