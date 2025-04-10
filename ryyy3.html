@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>人员预约</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f9f9f9; }
+    .container { padding: 16px; }
+    .card {position: relative; background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);}
+    .card h3 { margin: 0 0 8px 0; font-size: 16px; }
+    .label { color: #666; font-size: 14px; margin-bottom: 6px; }
+    select, input { width: 90%; padding: 10px; /*margin-bottom: 12px;*/ border: 1px solid #ccc; border-radius: 6px; }
+    .date-buttons button {
+      display: inline-block; width: 21%; padding: 12px; margin-right: 2%;    margin-bottom: 10px;
+      background: #f1f1f1; border: 1px solid #ccc; border-radius: 6px; color: #000000; /*font-weight: bold;*/
+    }
+    .date-buttons button:last-child { margin-right: 0; }
+    .submit-btn {
+      background: #007bff; color: white; padding: 14px; border: none;
+      border-radius: 8px; font-size: 16px; width: 100%; margin-top: 20px;
+    }
+    .tip { font-size: 13px; color: #000000; }
+    .inline-title { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+	.card .status{    position: absolute;
+    top: 25px;
+    right: 21px;
+    font-size: 15px;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 3px;
+    z-index: 2;
+    background-color: #007bff;}
+	.card .status1{    position: absolute;
+    top: 25px;
+    right: 21px;
+    font-size: 10px;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    z-index: 2;
+    background-color: #007bff;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h3>曾望途</h3>
+      <p class="label">身份证号：610*********3037</p>
+    </div>
+
+
+	<div class="card">
+	<p class="label">进行预约时可预约当天以及未来七天的可预约的时间段，每人最多预约十辆车。</p>
+	</div>
+	<div class="card" style="text-align: center;">
+	<label class="inline-title" style="color: red;">选择预约校区</label>
+      <select style="border: 1px solid #fff;margin-left: 30%;width: 30%;color: #000000;">
+        <option>本部校区</option>
+        <option>榆中校区</option>
+        <option>医学校区</option>
+      </select>
+	</div>
+	<div class="card">
+	<label class="inline-title">选择日期（北京时间 UTC+8）</label>
+      <p style="font-size: 12px; color: gray;">刷新时间：2025-04-10 10:45:34</p>
+	  <span class="status">刷新</span>
+      <div class="date-buttons">
+        <button>04-10<br>今日<br>预约</button>
+        <button>04-11<br>星期五<br>预约</button>
+		<button>04-12<br>星期六<br>预约</button>
+		<button>04-13<br>星期日<br>预约</button>
+		<button>04-14<br>星期一<br>预约</button>
+		<button>04-15<br>星期二<br>预约</button>
+		<button>04-16<br>星期三<br>预约</button>
+		<button>04-17<br>星期四<br>预约</button>
+      </div>
+	</div>
+	<div class="card" style="text-align: center;">
+      <label class="inline-title" style="color: red;">选择进校原因</label>
+      <select style="border: 1px solid #fff;margin-left: 38%;width: 22%;color: #000000;">
+        <option>参观</option>
+        <option>办事</option>
+        <option>访问</option>
+        <option>其他</option>
+      </select>
+    </div>
+
+    <div class="card">
+		<span class="status1">+添加</span>
+      <p class="inline-title">预约车辆信息</p>
+      <p class="tip">
+        提醒：预约多个车辆时点击“添加图标”按钮进行预约，车牌号必须真实无误，否则车辆无法进校。
+      </p>
+
+      <div>
+        <label>车辆1</label>
+        <input type="text" style="margin-top: 10px;" placeholder="车主姓名">
+        <input type="text" placeholder="车主电话">
+        <input type="text" style="margin-bottom: 10px;" placeholder="车牌号">
+      </div>
+
+<!--       <div>
+        <label>陪同人2</label>
+        <input type="text" style="margin-top: 10px;" placeholder="姓名">
+        <input type="text" placeholder="手机号">
+        <input type="text" placeholder="身份证号">
+      </div> -->
+    </div>
+
+    <button class="submit-btn">立即预约</button>
+  </div>
+
+<script>
+  // 日期生成函数
+  function updateDateSection() {
+    const refreshTime = new Date();
+    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    const refreshText = refreshTime.getFullYear() + '-' +
+                        String(refreshTime.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(refreshTime.getDate()).padStart(2, '0') + ' ' +
+                        String(refreshTime.getHours()).padStart(2, '0') + ':' +
+                        String(refreshTime.getMinutes()).padStart(2, '0') + ':' +
+                        String(refreshTime.getSeconds()).padStart(2, '0');
+    document.querySelector('p[style*="gray"]').innerText = '刷新时间：' + refreshText;
+
+    const dateButtonsDiv = document.querySelector('.date-buttons');
+    dateButtonsDiv.innerHTML = '';  // 清空原内容
+
+    for (let i = 0; i < 8; i++) {
+      const d = new Date();
+      d.setDate(refreshTime.getDate() + i);
+      const mmdd = String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      const weekday = i === 0 ? '今日' : weekdays[d.getDay()];
+      const btn = document.createElement('button');
+      btn.innerHTML = mmdd + '<br>' + weekday + '<br>预约';
+      dateButtonsDiv.appendChild(btn);
+    }
+  }
+
+  // 页面加载后执行
+  window.onload = updateDateSection;
+</script>
+
+</body>
+</html>
