@@ -1,234 +1,100 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>校园预约</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-        }
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #f0f0f0;
-            font-size: 14px;
-        }
-        .status-bar .close {
-            font-size: 18px;
-        }
-        .header {
-            text-align: center;
-            padding: 10px;
-        }
-        .header h1 {
-            font-size: 20px;
-            margin: 5px 0;
-        }
-        .header p {
-            font-size: 12px;
-            color: #666;
-            margin: 0;
-        }
-        .container {
-            padding: 10px;
-        }
-        .section {
-            background-color: #fff;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .section h2 {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 0 0 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .section h2 .right {
-            font-size: 14px;
-            color: #666;
-            font-weight: normal;
-        }
-        .section h2 .refresh-btn {
-            font-size: 14px;
-            color: #007bff;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        .section p {
-            font-size: 12px;
-            color: #666;
-            line-height: 1.4;
-            margin: 0 0 10px;
-        }
-        .id-card {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .date-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .date-option {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        .date-option.selected {
-            background-color: #e6f0ff;
-            border-color: #007bff;
-            color: #007bff;
-        }
-        .campus-selector {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .campus-selector select {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: #666;
-        }
-        .campus-selector .arrow {
-            font-size: 16px;
-            color: #666;
-        }
-        .guest-input {
-            margin-bottom: 15px;
-            position: relative;
-        }
-        .guest-input label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            display: block;
-            position: relative;
-            padding-left: 30px;
-        }
-        .guest-input label::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 2px;
-            width: 20px;
-            height: 20px;
-            background-color: #e6f0ff;
-            border-radius: 5px;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            color: #007bff;
-        }
-        .guest-input label[for="guest1"]::before {
-            content: '1';
-        }
-        .guest-input label[for="guest2"]::before {
-            content: '2';
-        }
-        .guest-input input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 10px 0;
-        }
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>人员预约</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f9f9f9; }
+    .container { padding: 16px; }
+    .card {position: relative; background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);}
+    .card h3 { margin: 0 0 8px 0; font-size: 16px; }
+    .label { color: #666; font-size: 14px; margin-bottom: 6px; }
+    select, input { width: 90%; padding: 10px; /*margin-bottom: 12px;*/ border: 1px solid #ccc; border-radius: 6px; }
+    .date-buttons button {
+      display: inline-block; width: 48%; padding: 12px; margin-right: 2%;
+      background: #f1f1f1; border: 1px solid #ccc; border-radius: 6px; color: #000000; /*font-weight: bold;*/
+    }
+    .date-buttons button:last-child { margin-right: 0; }
+    .submit-btn {
+      background: #007bff; color: white; padding: 14px; border: none;
+      border-radius: 8px; font-size: 16px; width: 100%; margin-top: 20px;
+    }
+    .tip { font-size: 13px; color: #000000; }
+    .inline-title { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+	.card .status{    position: absolute;
+    top: 25px;
+    right: 21px;
+    font-size: 15px;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 3px;
+    z-index: 2;
+    background-color: #007bff;}
+  </style>
 </head>
 <body>
-<!--     <div class="status-bar">
-        <span class="close">X</span>
-        <span>21:07</span>
-        <span>信号 Wi-Fi 42%</span>
-    </div>
-    <div class="header">
-        <h1>校园预订</h1>
-        <p>ryyy.lzu.edu.cn</p>
-    </div> -->
-    <div class="container">
-        <div class="section">
-            <h2>曾望途</h2>
-            <div class="id-card">身份证：610***********3037</div>
-            <p>选择预约的可预约的天次及第二天可预约的时段后，可选择两个时段入园，一次入校。</p>
-        </div>
-        <div class="section">
-            <h2>选择日期和校区 <span class="right">本部校区 <button class="refresh-btn" onclick="createNew()">刷新</button></span></h2>
-            <div class="date-selector">
-                <div class="date-option selected">04-09<br>今天</div>
-                <div class="date-option">04-10<br>星期四<br>预约</div>
-            </div>
-            <div class="campus-selector">
-                <select>
-                    <option>本部校区</option>
-                    <option>其他校区</option>
-                </select>
-                <span class="arrow">▼</span>
-            </div>
-        </div>
-        <div class="section">
-            <h2>选择预约时段 <span class="right">请选项</span></h2>
-            <p>因个人信息（无用户个人信息不予显示）、同行个人不予选择预约人、因个人进入名单与身份信息必须完全一致，否则信息录入不予通过好无选择通过核验、预约成功后，预约人需同个人与预约申请身份信息核验。</p>
-            <div class="guest-input">
-                <label for="guest1">客人1</label>
-                <input type="text" id="guest1-phone" placeholder="手机号码">
-                <input type="text" id="guest1-id" placeholder="身份证号码">
-            </div>
-            <div class="guest-input">
-                <label for="guest2">客人2</label>
-                <input type="text" id="guest2-phone" placeholder="手机号码">
-                <input type="text" id="guest2-id" placeholder="身份证号码">
-            </div>
-        </div>
-        <button class="submit-btn" onclick="submitReservation()">立即预约</button>
+  <div class="container">
+    <div class="card">
+      <h3>曾望途</h3>
+      <p class="label">身份证号：610*********3037</p>
     </div>
 
-    <script>
-        function createNew() {
-            alert('刷新页面');
-            window.location.reload();
-        }
 
-        function submitReservation() {
-            // 跳转到成功页面（可以根据需求修改）
-            window.location.href = 'https://ryyy.lzu.edu.cn/success';
-        }
-    </script>
+	<div class="card">
+	<p class="label">进行预约时可预约当天以及第二天的可预约的时间段，可选择两个陪同人员一同入校。</p>
+	</div>
+	<div class="card" style="text-align: center;padding: 5px 16px 5px 16px;">
+	<label class="inline-title" style="color: red;">选择预约校区</label>
+      <select style="border: 1px solid #fff;margin-left: 30%;width: 30%;">
+        <option>本部校区</option>
+        <option>榆中校区</option>
+        <option>医学校区</option>
+      </select>
+	</div>
+	<div class="card">
+	<label class="inline-title">选择日期（北京时间 UTC+8）</label>
+      <p style="font-size: 12px; color: gray;">刷新时间：2025-04-10 10:45:34</p>
+	  <span class="status">刷新</span>
+      <div class="date-buttons">
+        <button>04-10<br>今日<br>预约</button>
+        <button>04-11<br>星期五<br>预约</button>
+      </div>
+	</div>
+	<div class="card" style="text-align: center;padding: 5px 16px 5px 16px;">
+      <label class="inline-title" style="color: red;">选择进校原因</label>
+      <select style="border: 1px solid #fff;margin-left: 38%;width: 22%;">
+        <option>参观</option>
+        <option>办事</option>
+        <option>访问</option>
+        <option>其他</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <p class="inline-title">同行人信息（无同行人时不填写）</p>
+      <p class="tip">
+        提醒：同行人不包括预约人，
+        <span style="color:red;">同行人姓名与身份证号必须真实无误，否则信息录入不上进校时无法通过身份核验。</span>
+        预约成功后，预约人和同行人均需使用身份证入校
+      </p>
+
+      <div>
+        <label>陪同人1</label>
+        <input type="text" style="margin-top: 10px;" placeholder="姓名">
+        <input type="text" placeholder="手机号">
+        <input type="text" style="margin-bottom: 10px;" placeholder="身份证号">
+      </div>
+
+      <div>
+        <label>陪同人2</label>
+        <input type="text" style="margin-top: 10px;" placeholder="姓名">
+        <input type="text" placeholder="手机号">
+        <input type="text" placeholder="身份证号">
+      </div>
+    </div>
+
+    <button class="submit-btn">立即预约</button>
+  </div>
 </body>
 </html>
