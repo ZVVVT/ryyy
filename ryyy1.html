@@ -96,5 +96,38 @@
 
     <button class="submit-btn">立即预约</button>
   </div>
+
+<script>
+  function updateDateInfo() {
+    const now = new Date();
+    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+
+    // 更新时间
+    const formattedTime = now.getFullYear() + '-' +
+      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+      String(now.getDate()).padStart(2, '0') + ' ' +
+      String(now.getHours()).padStart(2, '0') + ':' +
+      String(now.getMinutes()).padStart(2, '0') + ':' +
+      String(now.getSeconds()).padStart(2, '0');
+    document.querySelector('p[style*="gray"]').innerText = '刷新时间：' + formattedTime;
+
+    // 更新两个日期按钮
+    const dateButtons = document.querySelector('.date-buttons');
+    dateButtons.innerHTML = '';
+
+    for (let i = 0; i < 2; i++) {
+      const date = new Date();
+      date.setDate(now.getDate() + i);
+      const mmdd = String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+      const weekday = i === 0 ? '今日' : weekdays[date.getDay()];
+      const btn = document.createElement('button');
+      btn.innerHTML = mmdd + '<br>' + weekday + '<br>预约';
+      dateButtons.appendChild(btn);
+    }
+  }
+
+  window.onload = updateDateInfo;
+</script>
+
 </body>
 </html>

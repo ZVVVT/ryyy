@@ -305,5 +305,40 @@
             document.getElementById(`${tab}-list`).classList.add('active');
         }
     </script>
+
+<script>
+  function updateReservationDates() {
+    const today = new Date();
+
+    // 计算上一周的周一
+    const dayOfWeek = today.getDay() === 0 ? 7 : today.getDay(); // 周日视作7
+    const lastMonday = new Date(today);
+    lastMonday.setDate(today.getDate() - dayOfWeek - 6 + 1); // 上一周周一
+
+    // 计算上一周的周三
+    const lastWednesday = new Date(today);
+    lastWednesday.setDate(today.getDate() - dayOfWeek - 6 + 3); // 上一周周三
+
+    function formatDate(d) {
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return yyyy + '-' + mm + '-' + dd;
+    }
+
+    const dateElements = document.querySelectorAll("#person-list .reservation-item p:first-of-type");
+    if (dateElements.length >= 3) {
+      dateElements[0].innerText = "预约日期:" + formatDate(today);
+      dateElements[1].innerText = "预约日期:" + formatDate(lastWednesday);
+      dateElements[2].innerText = "预约日期:" + formatDate(lastMonday);
+    }
+  }
+
+  window.onload = function () {
+    updateReservationDates();
+    if (typeof showTab === "function") showTab('person');
+  };
+</script>
+
 </body>
 </html>
